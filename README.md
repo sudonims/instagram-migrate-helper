@@ -19,3 +19,11 @@
 }
 
 ```
+
+# To Do
+
+1. Get Follower list (Don;t get the point though)
+2. Have user give input to username and password on the go
+3. Let the following list be utilised and follow people from new account (Might need cron Job as insta probably limits 15-20 follow req per hour)
+4. Setup Selenium On the Go (Download selenium binary on the spot based on user input(choosing browser) )
+5. Exception handling.

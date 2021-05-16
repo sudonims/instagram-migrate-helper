@@ -40,5 +40,4 @@ with open("following.json", "w", encoding="utf-8") as f:
     json.dump({"following": following}, f, ensure_ascii=False, indent=2)
     f.write(json.dumps({"following": following}))
 
-# Made by Nimish Tarang Shah.
-# Special thanks to google and Volsbb login(for idea).
+# Made by sudonims
