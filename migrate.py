@@ -1,7 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from time import sleep
-
+import json
 
 driver = webdriver.Chrome(
     r"/home/sudonims/chromedriver"
@@ -14,12 +14,12 @@ def execKeyComb(key):
 
 driver.get("https://instagram.com")
 print("opened")  #!?Parantheses
-sleep(1)
+sleep(2)
 user = driver.find_element_by_name("username")
 passwd = driver.find_element_by_name("password")
-user.send_keys("<username>")  # Replace the text with your username
+user.send_keys("<USERNAME>")  # Replace the text with your username
 sleep(0.25)
-passwd.send_keys("<password>")  # Replace the text with your password
+passwd.send_keys("<PASSWORD>")  # Replace the text with your password
 sleep(0.25)
 button = driver.find_element_by_css_selector("button.L3NKy")
 button.click()
@@ -36,5 +36,9 @@ user_id = driver.find_element_by_tag_name("html").get_attribute("id")
 sleep(2)
 following = driver.execute_script(open("./getFollowing.js").read())
 print(following)
+with open("following.json", "w", encoding="utf-8") as f:
+    json.dump({"following": following}, f, ensure_ascii=False, indent=2)
+    f.write(json.dumps({"following": following}))
+
 # Made by Nimish Tarang Shah.
 # Special thanks to google and Volsbb login(for idea).

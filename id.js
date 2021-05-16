@@ -1,6 +1,6 @@
 var xhr = new XMLHttpRequest();
 
-xhr.open("GET", "https://www.instagram.com/sudonimsh/?__a=1");
+xhr.open("GET", "https://www.instagram.com/sudonims/?__a=1");
 xhr.send();
 xhr.onreadystatechange = function () {
   if (xhr.status === 200) {

@@ -15,7 +15,7 @@ function sendReq(next) {
             include_reel: true,
             fetch_mutual: true,
             first: 50,
-            after: undefined,
+            after: next,
           })
         )
     );
@@ -23,12 +23,16 @@ function sendReq(next) {
     xhr.send();
     xhr.onreadystatechange = function () {
       if (xhr.status === 200) {
-        console.log(xhr.responseText);
         var res = JSON.parse(xhr.responseText);
         result.hasNext = res.data.user.edge_follow.page_info.has_next_page;
         result.next = res.data.user.edge_follow.page_info.end_cursor;
         console.log(res.data.user.edge_follow.page_info.edges);
-        result.data = res.data.user.edge_follow.edges;
+        result.data = res.data.user.edge_follow.edges.map((edge) => {
+          return {
+            id: edge.node.id,
+            username: edge.node.username,
+          };
+        });
         resolve(result);
       }
     };
@@ -43,16 +47,22 @@ async function getFollowing() {
       next: undefined,
     };
     while (result.hasNext) {
-      await sendReq(result.next).then(function (data) {
-        console.log("data", data);
-        result.hasNext = data.hasNext;
-        result.next = data.next;
-        following = following.concat(data.data);
-        if (!data.hasNext) {
-          console.log(following);
-          resolve(following);
-        }
-      });
+      var d = await sendReq(result.next)
+        .then(function (data) {
+          return data;
+        })
+        .catch(function (err) {
+          reject(err);
+          console.log(err);
+        });
+      console.log("data", d);
+      result.hasNext = d.hasNext;
+      result.next = d.next;
+      following = following.concat(d.data);
+      if (!d.hasNext) {
+        console.log(following);
+        resolve(following);
+      }
     }
   });
 }
